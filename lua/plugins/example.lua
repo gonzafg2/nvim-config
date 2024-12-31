@@ -11,24 +11,6 @@ if true then return {} end
 return {
   -- add gruvbox
   { "ellisonleao/gruvbox.nvim" },
-  -- toggleterm
-  {
-    "akinsho/toggleterm.nvim",
-    version = "*",
-    config = function()
-      require("toggleterm").setup({
-        size = 20,
-        open_mapping = [[<S-d>]],
-        shade_filetypes = {},
-        shade_terminals = true,
-        shading_factor = 2,
-        direction = "float", -- Define que sea flotante
-        float_opts = {
-          border = "curved", -- Opciones: single, double, shadow, etc.
-        },
-      })
-    end,
-  },
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
