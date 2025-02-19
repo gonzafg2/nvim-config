@@ -21,11 +21,11 @@ return {
     workspaces = {
       {
         name = "Personal",
-        path = "/mnt/c/Users/gonza/Obsidian/Personal",
+        path = "/Users/gonzalofleminggarrido/Documents/Obsidian/Personal",
       },
       {
         name = "FIF",
-        path = "/mnt/c/Users/gonza/Obsidian/FIF",
+        path = "/Users/gonzalofleminggarrido/Documents/Obsidian/FIF",
       },
     },
     ui = { enable = false },
