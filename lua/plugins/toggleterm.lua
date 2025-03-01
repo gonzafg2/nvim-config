@@ -5,7 +5,7 @@ return {
     config = function()
       require("toggleterm").setup({
         size = 10,
-        open_mapping = [[<A-d>]], -- Alt + D para abrir/cerrar terminal horizontal
+        open_mapping = [[<C-a>]], -- Alt + D para abrir/cerrar terminal horizontal
         shade_terminals = true,
         shade_factor = 25,
         shade_ratio = 0.25,
@@ -49,7 +49,7 @@ return {
       -- Mapear un atajo para abrir la terminal flotante
       vim.api.nvim_set_keymap(
         "n",
-        "<A-f>", -- Alt + F para la terminal flotante
+        "<C-c>", -- Alt + F para la terminal flotante
         ":ToggleFloatTerm<CR>",
         { noremap = true, silent = true, desc = "Abrir terminal flotante" }
       )
