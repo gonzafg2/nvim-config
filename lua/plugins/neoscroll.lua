@@ -17,16 +17,21 @@ return {
       },
     })
     
-    -- Mapeos personalizados para neoscroll
-    local t = {}
-    t["<C-u>"] = {"scroll", {-10, "false", "100", nil}}
-    t["<C-d>"] = {"scroll", {10, "false", "100", nil}}
-    t["<C-b>"] = {"scroll", {-vim.api.nvim_win_get_height(0), "false", "250", "cubic"}}
-    t["<C-f>"] = {"scroll", {vim.api.nvim_win_get_height(0), "false", "250", "cubic"}}
-    t["zt"] = {"zt", {"200"}}
-    t["zz"] = {"zz", {"200"}}
-    t["zb"] = {"zb", {"200"}}
+    -- Mapeos personalizados para neoscroll usando las funciones helper
+    local neoscroll = require('neoscroll')
+    local keymap = {
+      ["<C-u>"] = function() neoscroll.scroll(-10, false, 100) end,
+      ["<C-d>"] = function() neoscroll.scroll(10, false, 100) end,
+      ["<C-b>"] = function() neoscroll.scroll(-vim.api.nvim_win_get_height(0), false, 250, "cubic") end,
+      ["<C-f>"] = function() neoscroll.scroll(vim.api.nvim_win_get_height(0), false, 250, "cubic") end,
+      ["zt"] = function() neoscroll.zt(200) end,
+      ["zz"] = function() neoscroll.zz(200) end,
+      ["zb"] = function() neoscroll.zb(200) end,
+    }
     
-    require("neoscroll.config").set_mappings(t)
+    local modes = { 'n', 'v' }
+    for key, func in pairs(keymap) do
+      vim.keymap.set(modes, key, func)
+    end
   end,
 }

@@ -38,4 +38,13 @@ return {
       min_chars = 2,
     },
   },
+  keys = {
+    { "<leader>oo", "<cmd>ObsidianOpen<CR>", desc = "Open Obsidian" },
+    { "<leader>on", "<cmd>ObsidianNew<CR>", desc = "Nueva nota" },
+    { "<leader>os", "<cmd>ObsidianSearch<CR>", desc = "Buscar notas" },
+    { "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", desc = "Cambiar rápidamente" },
+    { "<leader>of", "<cmd>ObsidianFollowLink<CR>", desc = "Seguir enlace" },
+    { "<leader>ob", "<cmd>ObsidianBacklinks<CR>", desc = "Ver backlinks" },
+    { "<leader>ot", "<cmd>ObsidianToday<CR>", desc = "Nota diaria" },
+  },
 }

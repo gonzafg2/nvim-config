@@ -3,8 +3,8 @@
 -- Add any additional options here
 
 -- This file is automatically loaded by plugins.core
--- vim.g.mapleader = " "
--- vim.g.maplocalleader = "\\"
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
 -- LazyVim auto format
 vim.g.autoformat = true
@@ -118,7 +118,8 @@ opt.wrap = true -- Disable line wrap
 if vim.fn.has("nvim-0.10") == 1 then
   opt.smoothscroll = true
   opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
-  opt.foldmethod = "expr"
+  opt.foldmethod = "indent"
+  opt.foldcolumn = "5"
   opt.foldtext = ""
 else
   opt.foldmethod = "indent"
