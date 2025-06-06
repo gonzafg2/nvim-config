@@ -1,8 +1,10 @@
 return {
+
   -- Mejoras de UI
   {
     "stevearc/dressing.nvim",
     lazy = true,
+    event = "VeryLazy",
     init = function()
       ---@diagnostic disable-next-line: duplicate-set-field
       vim.ui.select = function(...)
@@ -69,7 +71,7 @@ return {
   -- Barra de indentación
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = "LazyFile",
+    event = { "BufReadPost", "BufNewFile" },
     opts = {
       indent = {
         char = "│", -- Símbolo para las líneas de indentación
@@ -91,36 +93,42 @@ return {
   },
 
   -- Colores para los pares de paréntesis, llaves, corchetes
-  {
-    "HiPhish/rainbow-delimiters.nvim",
-    event = "LazyFile",
-    config = function()
-      local rainbow = require("rainbow-delimiters")
-      require("rainbow-delimiters.setup").setup({
-        strategy = {
-          [""] = rainbow.strategy["global"],
-          vim = rainbow.strategy["local"],
-        },
-        query = {
-          [""] = "rainbow-delimiters",
-          lua = "rainbow-blocks",
-        },
-        highlight = {
-          "RainbowDelimiterRed",
-          "RainbowDelimiterYellow",
-          "RainbowDelimiterBlue",
-          "RainbowDelimiterOrange",
-          "RainbowDelimiterGreen",
-          "RainbowDelimiterViolet",
-          "RainbowDelimiterCyan",
-        },
-      })
-    end,
-  },
+  -- DESACTIVADO: Si quieres reactivarlo, descomenta este bloque
+  -- {
+  --   "HiPhish/rainbow-delimiters.nvim",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     require("rainbow-delimiters.setup").setup({
+  --       strategy = {
+  --         [""] = "rainbow-delimiters.strategy.global",
+  --         vim = "rainbow-delimiters.strategy.local",
+  --       },
+  --       query = {
+  --         [""] = "rainbow-delimiters",
+  --         lua = "rainbow-blocks",
+  --       },
+  --       priority = {
+  --         [""] = 110,
+  --         lua = 210,
+  --       },
+  --       highlight = {
+  --         "RainbowDelimiterRed",
+  --         "RainbowDelimiterYellow",
+  --         "RainbowDelimiterBlue",
+  --         "RainbowDelimiterOrange",
+  --         "RainbowDelimiterGreen",
+  --         "RainbowDelimiterViolet",
+  --         "RainbowDelimiterCyan",
+  --       },
+  --     })
+  --   end,
+  -- },
 
   -- Mejor UI para notificaciones
   {
     "rcarriga/nvim-notify",
+    lazy = true,
+    event = "VeryLazy",
     opts = {
       timeout = 3000,
       max_height = function()

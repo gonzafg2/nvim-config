@@ -19,6 +19,12 @@ return {
       { "<leader>so", "<cmd>Telescope oldfiles<cr>", desc = "Archivos recientes" },
       { "<leader>sr", "<cmd>Telescope resume<cr>", desc = "Reanudar última búsqueda" },
       { "<leader>fb", "<cmd>Telescope file_browser<cr>", desc = "Explorador de archivos" },
+      -- Keymap para buscar en archivos de plugins
+      {
+        "<leader>fp",
+        function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root }) end,
+        desc = "Find Plugin File",
+      },
     },
     config = function(_, opts)
       local telescope = require("telescope")

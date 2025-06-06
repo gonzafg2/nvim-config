@@ -1,0 +1,146 @@
+=== Plugin Optimization Report ===
+
+📦 Plugins no cargados (candidatos a eliminar):
+  • 1                              | Sin trigger
+  • 2                              | Sin trigger
+  • 4                              | Evento: { "BufReadPre", "BufNewFile" }
+  • 5                              | Teclas: { { "<leader>t", "",
+    desc = "+test"
+  }, { "<leader>tt", <function 1>,
+    desc = "Run File (Neotest)"
+  }, { "<leader>tT", <function 2>,
+    desc = "Run All Test Files (Neotest)"
+  }, { "<leader>tr", <function 3>,
+    desc = "Run Nearest (Neotest)"
+  }, { "<leader>tl", <function 4>,
+    desc = "Run Last (Neotest)"
+  }, { "<leader>ts", <function 5>,
+    desc = "Toggle Summary (Neotest)"
+  }, { "<leader>to", <function 6>,
+    desc = "Show Output (Neotest)"
+  }, { "<leader>tO", <function 7>,
+    desc = "Toggle Output Panel (Neotest)"
+  }, { "<leader>tS", <function 8>,
+    desc = "Stop (Neotest)"
+  }, { "<leader>tw", <function 9>,
+    desc = "Toggle Watch (Neotest)"
+  } }
+  • 6                              | Comando: { "ClaudeCode" }
+  • 7                              | Comando: "GrugFar"
+  • 8                              | Evento: "LazyFile"
+  • 10                             | Evento: "LazyFile"
+  • 12                             | FileType: { "terraform", "hcl" }
+  • 14                             | Evento: { {
+    event = "BufReadCmd",
+    pattern = "octo://*"
+  } }
+  • 16                             | Teclas: { { "<leader>fm", <function 1>,
+    desc = "Open mini.files (Directory of Current File)"
+  }, { "<leader>fM", <function 2>,
+    desc = "Open mini.files (cwd)"
+  } }
+  • 17                             | Evento: "LazyFile"
+  • 22                             | Evento: "InsertEnter"
+  • 23                             | FileType: { "sql", "mysql", "plsql" }
+  • 24                             | Comando: "ConformInfo"
+  • 25                             | Sin trigger
+  • 27                             | Comando: { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" }
+  • 28                             | Evento: { "BufReadPost", "BufNewFile" }
+  • 29                             | FileType: "markdown"
+  • 30                             | FileType: { "markdown", "gitcommit" }
+  • 32                             | FileType: { "terraform", "hcl" }
+  • 33                             | Comando: { "PasteImage" }
+  • 34                             | Comando: "Glow"
+  • 35                             | Teclas: { { "<C-a>", <function 1>,
+    desc = "Increment",
+    expr = true,
+    mode = { "n", "v" }
+  }, { "<C-x>", <function 2>,
+    desc = "Decrement",
+    expr = true,
+    mode = { "n", "v" }
+  }, { "g<C-a>", <function 3>,
+    desc = "Increment",
+    expr = true,
+    mode = { "n", "v" }
+  }, { "g<C-x>", <function 4>,
+    desc = "Decrement",
+    expr = true,
+    mode = { "n", "v" }
+  } }
+  • 36                             | Sin trigger
+  • 37                             | Comando: { "Git", "G" }
+  • 38                             | Sin trigger
+  • 39                             | Comando: { "CodeCompanion", "CodeCompanionChat", "CodeCompanionAdd", "CodeCompanionToggle" }
+  • 40                             | Sin trigger
+  • 41                             | Sin trigger
+  • 42                             | Sin trigger
+  • 43                             | Sin trigger
+  • 44                             | Comando: "Telescope"
+  • 45                             | Sin trigger
+  • 46                             | Comando: "Outline"
+  • 47                             | Sin trigger
+  • 49                             | Sin trigger
+  • 50                             | Sin trigger
+  • 52                             | Comando: "DB"
+  • 53                             | Sin trigger
+  • 56                             | Evento: "LazyFile"
+  • 57                             | Sin trigger
+  • 62                             | Teclas: <function 1>
+  • 63                             | Evento: "LazyFile"
+  • 64                             | Teclas: { { "s",
+    desc = "Leap Forward to",
+    mode = { "n", "x", "o" }
+  }, { "S",
+    desc = "Leap Backward to",
+    mode = { "n", "x", "o" }
+  }, { "gs",
+    desc = "Leap from Windows",
+    mode = { "n", "x", "o" }
+  } }
+  • 65                             | Evento: "LazyFile"
+  • 66                             | Comando: "VenvSelect"
+  • 69                             | FileType: { "markdown", "codecompanion" }
+  • 72                             | Comando: { "DBUI", "DBUIToggle", "DBUIAddConnection", "DBUIFindBuffer" }
+  • 74                             | Comando: "Neoconf"
+  • 77                             | Evento: "BufReadPost"
+  • 78                             | Sin trigger
+  • 79                             | Evento: "BufReadPre"
+  • 80                             | Comando: { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" }
+  • 81                             | Sin trigger
+  • 82                             | Comando: { "ToggleTerm", "ToggleFloatTerm" }
+  • 83                             | Sin trigger
+  • 87                             | Sin trigger
+  • 88                             | Comando: "IncRename"
+  • 89                             | Sin trigger
+  • 90                             | Evento: "LazyFile"
+  • 91                             | Sin trigger
+  • 92                             | Comando: "CopilotChat"
+  • 93                             | Comando: "LazyDev"
+  • 95                             | Comando: "Neogen"
+  • 96                             | Evento: "LazyFile"
+  • 97                             | Comando: "Neotree"
+
+⚡ Plugins con carga lazy óptima:
+  • 9                             
+  • 11                            
+  • 15                            
+  • 18                            
+  • 19                            
+  • 20                            
+  • 31                            
+  • 48                            
+  • 51                            
+  • 54                            
+  ... y 15 más
+
+📊 Resumen:
+  • Total de plugins: 97
+  • Plugins cargados: 30
+  • Plugins no usados: 67
+  • Plugins con lazy loading: 25
+
+💡 Recomendaciones:
+  • Considera eliminar los plugins no usados para mejorar el rendimiento
+
+💾 Ejecuta :OptimizeConfigSave para guardar el reporte en optimization-report.txt

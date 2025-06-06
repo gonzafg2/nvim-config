@@ -6,6 +6,12 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
 end
 
+-- Cargar configuración de autocomandos LSP con manejo robusto de errores
+local ok, lsp_autocmds = pcall(require, "config.lsp-autocmds")
+if ok then
+  lsp_autocmds.setup()
+end
+
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),
@@ -84,12 +90,18 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Deshabilitar diagnósticos en archivos .env
+-- Configurar diagnósticos en archivos .env (solo deshabilitar visualización)
 vim.api.nvim_create_autocmd("BufRead", {
   group = augroup("env_files"),
   pattern = "*.env",
   callback = function()
-    vim.diagnostic.enable(false) -- Desactiva diagnósticos en archivos .env
+    -- Solo deshabilitar la visualización, no los diagnósticos en sí
+    vim.diagnostic.config({
+      virtual_text = false,
+      signs = false,
+      underline = false,
+      update_in_insert = false,
+    }, vim.api.nvim_get_current_buf())
   end,
 })
 

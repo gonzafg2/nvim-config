@@ -2,6 +2,11 @@ return {
   {
     "akinsho/toggleterm.nvim",
     version = "*",
+    keys = {
+      { "<C-a>", desc = "Toggle horizontal terminal" },
+      { "<C-c>", desc = "Toggle float terminal" },
+    },
+    cmd = { "ToggleTerm", "ToggleFloatTerm" },
     config = function()
       require("toggleterm").setup({
         size = 10,

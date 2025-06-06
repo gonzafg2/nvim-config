@@ -3,11 +3,17 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim", -- Required for git operations
   },
+  keys = {
+    { "<C-,>", desc = "Toggle Claude Code" },
+    { "<leader>cC", desc = "Claude Code Continue" },
+    { "<leader>cV", desc = "Claude Code Verbose" },
+  },
+  cmd = { "ClaudeCode" },
   config = function()
     require("claude-code").setup({
       -- Terminal window settings
       window = {
-        height_ratio = 1, -- Percentage of screen height for the terminal window
+        height_ratio = 0.5, -- Percentage of screen height for the terminal window
         position = "rightbelow vsplit", -- Position of the window: "botright", "topleft", "vertical", "rightbelow vsplit", etc.
         enter_insert = true, -- Whether to enter insert mode when opening Claude Code
         hide_numbers = true, -- Hide line numbers in the terminal window
@@ -26,11 +32,24 @@ return {
       },
       -- Command settings
       command = "claude", -- Command used to launch Claude Code
+      -- Command variants
+      command_variants = {
+        -- Conversation management
+        continue = "--continue", -- Resume the most recent conversation
+        resume = "--resume", -- Display an interactive conversation picker
+
+        -- Output options
+        verbose = "--verbose", -- Enable verbose logging with full turn-by-turn output
+      },
       -- Keymaps
       keymaps = {
         toggle = {
           normal = "<C-,>", -- Normal mode keymap for toggling Claude Code, false to disable
           terminal = "<C-,>", -- Terminal mode keymap for toggling Claude Code, false to disable
+          variants = {
+            continue = "<leader>cC", -- Normal mode keymap for Claude Code with continue flag
+            verbose = "<leader>cV", -- Normal mode keymap for Claude Code with verbose flag
+          },
         },
         window_navigation = true, -- Enable window navigation keymaps (<C-h/j/k/l>)
         scrolling = true, -- Enable scrolling keymaps (<C-f/b>) for page up/down

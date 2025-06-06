@@ -109,17 +109,17 @@ opt.termguicolors = true -- True color support
 opt.timeoutlen = vim.g.vscode and 1000 or 300 -- Lower than default (1000) to quickly trigger which-key
 opt.undofile = true
 opt.undolevels = 10000
-opt.updatetime = 200 -- Save swap file and trigger CursorHold
+opt.updatetime = 250 -- Save swap file and trigger CursorHold (más rápido)
 opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
-opt.wrap = true -- Disable line wrap
+opt.wrap = true -- Enable line wrap
 
 if vim.fn.has("nvim-0.10") == 1 then
   opt.smoothscroll = true
   opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
   opt.foldmethod = "indent"
-  opt.foldcolumn = "5"
+  opt.foldcolumn = "1"
   opt.foldtext = ""
 else
   opt.foldmethod = "indent"
@@ -128,3 +128,9 @@ end
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
+
+-- Optimizaciones de rendimiento adicionales
+opt.shada = { "!", "'100", "<50", "s10", "h" } -- Limitar el archivo shada
+opt.synmaxcol = 300 -- Limitar el highlighting de sintaxis en líneas largas
+-- opt.lazyredraw = true -- No redibujar durante macros (puede causar problemas)
+opt.ttimeoutlen = 10 -- Tiempo de espera para secuencias de teclas

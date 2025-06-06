@@ -1,5 +1,6 @@
 return {
   "karb94/neoscroll.nvim",
+  event = "VeryLazy",
   config = function()
     require("neoscroll").setup({
       hide_cursor = true, -- Hide cursor while scrolling
@@ -20,8 +21,9 @@ return {
     -- Mapeos personalizados para neoscroll usando las funciones helper
     local neoscroll = require('neoscroll')
     local keymap = {
-      ["<C-u>"] = function() neoscroll.scroll(-10, false, 100) end,
-      ["<C-d>"] = function() neoscroll.scroll(10, false, 100) end,
+      -- Usar C-y y C-e para evitar conflicto con keymaps.lua
+      ["<C-y>"] = function() neoscroll.scroll(-10, false, 100) end,
+      ["<C-e>"] = function() neoscroll.scroll(10, false, 100) end,
       ["<C-b>"] = function() neoscroll.scroll(-vim.api.nvim_win_get_height(0), false, 250, "cubic") end,
       ["<C-f>"] = function() neoscroll.scroll(vim.api.nvim_win_get_height(0), false, 250, "cubic") end,
       ["zt"] = function() neoscroll.zt(200) end,
