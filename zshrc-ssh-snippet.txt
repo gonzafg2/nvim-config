@@ -1,0 +1,17 @@
+# SSH Agent Configuration
+# Agrega esto a tu ~/.zshrc
+
+# Cargar configuración de SSH Agent
+if [[ -f "$HOME/.config/nvim/ssh-agent-config.zsh" ]]; then
+    source "$HOME/.config/nvim/ssh-agent-config.zsh"
+fi
+
+# O si prefieres tenerlo directamente en .zshrc sin archivo externo:
+# if [[ "$OSTYPE" == "darwin"* ]]; then
+#     # Cargar TODAS las llaves SSH automáticamente
+#     for key in ~/.ssh/id_*; do
+#         if [[ -f "$key" && ! "$key" =~ \.pub$ ]] && grep -q "PRIVATE KEY" "$key" 2>/dev/null; then
+#             ssh-add --apple-use-keychain "$key" 2>/dev/null
+#         fi
+#     done
+# fi

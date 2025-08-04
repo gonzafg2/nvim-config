@@ -7,6 +7,7 @@ return {
         "typescript-language-server",
         "tailwindcss-language-server",
         "eslint-lsp",
+        "efm", -- Para usar ESLint global
         "vue-language-server", -- Este es el correcto para Vue 3
         "css-lsp",
         "html-lsp",
