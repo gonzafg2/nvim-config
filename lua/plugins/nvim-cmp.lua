@@ -21,12 +21,6 @@ return {
       -- Fuentes optimizadas con prioridades ajustadas
       opts.sources = cmp.config.sources({
         {
-          name = "copilot",
-          group_index = 1,
-          priority = 100,
-          max_item_count = 3, -- Limitar sugerencias de Copilot para mejor rendimiento
-        },
-        { 
           name = "nvim_lsp",
           priority = 1000,
           max_item_count = 20, -- Limitar items para mejor rendimiento
@@ -106,7 +100,6 @@ return {
             emoji = "󰱫",
             codecompanion = "",
             nvim_lua = "",
-            copilot = "",
           }
           
           vim_item.kind = string.format("%s %s", icons[entry.source.name] or "", vim_item.kind)
@@ -118,7 +111,6 @@ return {
             emoji = "[Emoji]",
             codecompanion = "[AI]",
             nvim_lua = "[Lua]",
-            copilot = "[Copilot]",
           })[entry.source.name]
           
           return vim_item

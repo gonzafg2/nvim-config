@@ -1,46 +1,37 @@
 return {
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
+    "github/copilot.vim",
     event = "InsertEnter",
-    opts = {
-      suggestion = { 
-        enabled = false,
-        auto_trigger = false,
-        debounce = 50, -- Más agresivo para respuesta inmediata
-      },
-      panel = { enabled = false },
-      filetypes = {
-        -- Por defecto está habilitado en todos los tipos
-        -- Solo especifica los que quieres deshabilitar:
+    config = function()
+      -- Deshabilitar en tipos de archivo específicos
+      vim.g.copilot_filetypes = {
+        ["*"] = true,
         help = false,
         gitcommit = false,
         gitrebase = false,
         ["."] = false,
-      },
-      copilot_node_command = 'node', -- Node.js version must be > 18.x
-      server_opts_overrides = {
-        settings = {
-          advanced = {
-            listCount = 3, -- Solo 3 sugerencias para máxima velocidad
-            inlineSuggestCount = 1, -- Solo 1 sugerencia inline
-            length = 500, -- Limitar longitud de las sugerencias
-          },
-        },
-      },
-    },
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    dependencies = "copilot.lua",
-    opts = {},
-    config = function(_, opts)
-      local copilot_cmp = require("copilot_cmp")
-      copilot_cmp.setup(opts)
-      -- Adjuntar copilot-cmp al lspconfig
-      require("lazyvim.util").lsp.on_attach(function(client, bufnr)
-        copilot_cmp._on_insert_enter({})
-      end)
+      }
+
+      -- Configuración de Node.js
+      vim.g.copilot_node_command = "node" -- Node.js version must be > 18.x
+
+      -- Keybindings personalizados
+      -- Tab: Aceptar sugerencia (con fallback inteligente)
+      vim.keymap.set("i", "<Tab>", function()
+        if vim.fn["copilot#Accept"]("") ~= "" then
+          return vim.fn["copilot#Accept"]("")
+        else
+          return "<Tab>"
+        end
+      end, { expr = true, replace_keycodes = false })
+
+      -- Ctrl+]: Siguiente sugerencia
+      vim.g.copilot_no_tab_map = true
+      vim.keymap.set("i", "<C-]>", "<Plug>(copilot-next)")
+      vim.keymap.set("i", "<C-[>", "<Plug>(copilot-previous)")
+
+      -- Ctrl+\: Descartar sugerencia
+      vim.keymap.set("i", "<C-\\>", "<Cmd>copilot#Dismiss()<CR>", { silent = true })
     end,
   },
 }

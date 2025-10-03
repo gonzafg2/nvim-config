@@ -242,23 +242,17 @@ return {
           },
         },
         lualine_x = {
-          -- Mostrar estado de copilot
+          -- Mostrar estado de copilot.vim
           {
             function()
-              local ok, copilot_client = pcall(function()
-                return vim.lsp.get_clients({ name = "copilot", bufnr = 0 })[1]
-              end)
-              if ok and copilot_client then
+              if vim.fn.exists("*copilot#Enabled") == 1 and vim.fn["copilot#Enabled"]() == 1 then
                 return ""
               else
                 return ""
               end
             end,
             color = function()
-              local ok, copilot_client = pcall(function()
-                return vim.lsp.get_clients({ name = "copilot", bufnr = 0 })[1]
-              end)
-              if ok and copilot_client then
+              if vim.fn.exists("*copilot#Enabled") == 1 and vim.fn["copilot#Enabled"]() == 1 then
                 return { fg = "#6CC644" }
               else
                 return { fg = "#6e6a86" }
