@@ -2,17 +2,14 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    event = { "BufReadPost", "BufNewFile" },
-    init = function()
-      -- Configurar directorio temporal para tree-sitter
-      vim.env.TMPDIR = vim.fn.expand("~/.cache/nvim/tmp")
-      vim.fn.mkdir(vim.env.TMPDIR, "p")
-    end,
+    event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
       "windwp/nvim-ts-autotag",
     },
     opts = function(_, opts)
+      -- Asegurar que opts existe
+      opts = opts or {}
       -- Solo instalar parsers esenciales y los que realmente uses
       opts.ensure_installed = {
         "bash",
@@ -132,24 +129,69 @@ return {
         },
       }
       
-      -- Mejor rendimiento con folding
+      -- Configuración de folding segura con treesitter
       opts.fold = {
         enable = true,
       }
-      
+
       return opts
     end,
     config = function(_, opts)
-      -- Configurar el compilador para tree-sitter
-      require("nvim-treesitter.install").compilers = { "gcc", "cc", "clang", "cl" }
-      require("nvim-treesitter.install").prefer_git = false
-      
-      require("nvim-treesitter.configs").setup(opts)
-      
-      -- Configurar folding con treesitter
-      vim.opt.foldmethod = "expr"
-      vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-      vim.opt.foldenable = false -- No plegar automáticamente al abrir archivos
+      -- Manejo robusto de errores para configurar treesitter
+
+      -- Intento primario: usar el módulo estándar
+      local configs_ok, configs = pcall(require, "nvim-treesitter.configs")
+      if configs_ok and configs.setup then
+        configs.setup(opts)
+        return
+      end
+
+      -- Intento secundario: usar el módulo config (singular)
+      local config_ok, config = pcall(require, "nvim-treesitter.config")
+      if config_ok and config.setup then
+        config.setup(opts)
+        return
+      end
+
+      -- Intento terciario: configuración manual esencial
+      local ok, ts = pcall(require, "nvim-treesitter")
+      if ok then
+        -- Configurar manualmente highlight y parsers esenciales
+        pcall(function()
+          vim.treesitter.language.register("bash", "sh")
+          vim.treesitter.language.register("bash", "zsh")
+          vim.treesitter.language.register("javascript", "javascriptreact")
+          vim.treesitter.language.register("typescript", "typescriptreact")
+        end)
+
+        -- Configurar highlight si está disponible
+        pcall(function()
+          if vim.treesitter.highlighter then
+            for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+              if vim.api.nvim_buf_is_loaded(bufnr) then
+                vim.treesitter.highlighter.new(vim.treesitter.get_parser(bufnr))
+              end
+            end
+          end
+        end)
+      end
+
+      -- Configurar el compilador para tree-sitter si está disponible
+      local install_ok, install = pcall(require, "nvim-treesitter.install")
+      if install_ok then
+        install.compilers = { "gcc", "cc", "clang", "cl" }
+        install.prefer_git = false
+      end
+
+      -- Configurar folding de forma segura
+      if opts.fold and opts.fold.enable then
+        pcall(function()
+          vim.opt.foldmethod = "expr"
+          vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+          vim.opt.foldenable = false -- No plegar automáticamente al abrir archivos
+          vim.opt.foldlevelstart = 99 -- Comenzar con todos los folds abiertos
+        end)
+      end
     end,
   },
 }

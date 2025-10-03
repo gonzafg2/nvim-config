@@ -38,7 +38,7 @@ return {
         },
         float_opts = {
           border = "curved", -- Opciones: "single", "double", "curved", etc.
-          winblend = 15,
+          winblend = 1,
         },
         on_open = function(term)
           -- Salir al modo NORMAL con <Esc> en la terminal flotante

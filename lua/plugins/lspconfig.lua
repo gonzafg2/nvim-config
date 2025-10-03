@@ -7,6 +7,10 @@ return {
         exclude = { "markdown", "norg", "org", "plain" } -- Lista de filetypes a excluir de inlay hints
       },
       codelens = { enabled = true },
+      -- Configuración de folding LSP (necesario para LazyVim)
+      folds = {
+        enabled = true, -- Habilitamos folding de forma segura
+      },
       -- Configuración de diagnósticos mejorada
       diagnostics = {
         underline = true,

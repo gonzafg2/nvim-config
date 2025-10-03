@@ -73,3 +73,31 @@ keymap({ "i", "v", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", vim.tbl_extend("force
 
 -- Mejor experiencia con búsqueda
 keymap("n", "<Esc>", "<cmd>nohlsearch<CR>", vim.tbl_extend("force", opts, { desc = "Clear search highlights" }))
+
+-- Database client (dbee) keybindings
+keymap("n", "<leader>db", "<cmd>Dbee<cr>", vim.tbl_extend("force", opts, { desc = "Open Database UI" }))
+keymap("n", "<leader>dt", "<cmd>Dbee toggle<cr>", vim.tbl_extend("force", opts, { desc = "Toggle Database UI" }))
+keymap("n", "<leader>dc", "<cmd>Dbee close<cr>", vim.tbl_extend("force", opts, { desc = "Close Database UI" }))
+
+-- Database query execution (available when dbee is active)
+keymap("n", "<leader>de", function()
+  require("dbee").api.core.execute()
+end, vim.tbl_extend("force", opts, { desc = "Execute current query" }))
+
+keymap("v", "<leader>de", function()
+  require("dbee").api.core.execute_selection()
+end, vim.tbl_extend("force", opts, { desc = "Execute selected query" }))
+
+-- Database result navigation
+keymap("n", "<leader>dn", function()
+  require("dbee").api.ui.result_page_next()
+end, vim.tbl_extend("force", opts, { desc = "Next result page" }))
+
+keymap("n", "<leader>dp", function()
+  require("dbee").api.ui.result_page_prev()
+end, vim.tbl_extend("force", opts, { desc = "Previous result page" }))
+
+-- Database result storage
+keymap("n", "<leader>ds", function()
+  require("dbee").store("csv", "file", { extra_arg = vim.fn.input("Save to file: ") })
+end, vim.tbl_extend("force", opts, { desc = "Save results to file" }))

@@ -1,10 +1,16 @@
--- Configuración personalizada de Neo-tree
+-- Configuración personalizada de Neo-tree que sobrescribe LazyVim
 return {
   "nvim-neo-tree/neo-tree.nvim",
+  enabled = true,
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons",
+    "MunifTanjim/nui.nvim",
+  },
   opts = {
     -- Configuración de la ventana
     window = {
-      position = "right",
+      position = "left",
       width = 60, -- Aumentado el ancho a 45 columnas
       mapping_options = {
         noremap = true,
@@ -70,6 +76,9 @@ return {
         width = 40,
       },
     },
+    -- Habilitar iconos de archivos
+    enable_git_status = true,
+    enable_diagnostics = true,
     -- Renderizado por defecto
     default_component_configs = {
       container = {
@@ -88,11 +97,12 @@ return {
         expander_highlight = "NeoTreeExpander",
       },
       icon = {
-        folder_closed = "",
-        folder_open = "",
-        folder_empty = "",
-        default = "*",
+        folder_closed = "󰉋",
+        folder_open = "󰝰",
+        folder_empty = "󰉖",
+        default = "󰈔",
         highlight = "NeoTreeFileIcon",
+        folder_empty_open = "󰷏",
       },
       modified = {
         symbol = "[+]",
@@ -106,20 +116,59 @@ return {
       git_status = {
         symbols = {
           -- Change type
-          added = "",
-          modified = "",
-          deleted = "✖",
-          renamed = "󰁕",
+          added = "[A]",
+          modified = "[M]",
+          deleted = "[D]",
+          renamed = "[R]",
           -- Status type
-          untracked = "",
-          ignored = "",
-          unstaged = "󰄱",
-          staged = "",
-          conflict = "",
+          untracked = "[U]",
+          ignored = "[I]",
+          unstaged = "[~]",
+          staged = "[S]",
+          conflict = "[!]",
         },
       },
     },
+    -- Configuración de colores para estados git
+    document_symbols = {
+      kinds = {
+        File = { icon = "󰄵", hl = "Tag" },
+        Namespace = { icon = "󰜍", hl = "Include" },
+        Package = { icon = "󰞔", hl = "Label" },
+        Class = { icon = "󰛯", hl = "Include" },
+        Property = { icon = "󰝰", hl = "@property" },
+        Enum = { icon = "󰛯", hl = "@number" },
+        Function = { icon = "󰃎", hl = "Function" },
+        String = { icon = "󰞍", hl = "String" },
+        Number = { icon = "󰣺", hl = "Number" },
+        Array = { icon = "󰞨", hl = "Type" },
+        Object = { icon = "󰅋", hl = "Type" },
+        Key = { icon = "󰄕", hl = "Keyword" },
+        Null = { icon = "󰌃", hl = "Constant" },
+        EnumMember = { icon = "󰛯", hl = "Number" },
+        Struct = { icon = "󰛯", hl = "Type" },
+        Event = { icon = "󰣼", hl = "Constant" },
+        Operator = { icon = "󰠔", hl = "Operator" },
+        TypeParameter = { icon = "󰛯", hl = "Type" },
+      },
+    },
   },
+  -- Configurar highlights personalizados
+  config = function(_, opts)
+    -- Configurar highlights para estados git
+    vim.api.nvim_set_hl(0, "NeoTreeGitAdded", { fg = "#a6d189" })
+    vim.api.nvim_set_hl(0, "NeoTreeGitModified", { fg = "#e5c890" })
+    vim.api.nvim_set_hl(0, "NeoTreeGitDeleted", { fg = "#e78284" })
+    vim.api.nvim_set_hl(0, "NeoTreeGitRenamed", { fg = "#85c1dc" })
+    vim.api.nvim_set_hl(0, "NeoTreeGitUntracked", { fg = "#f4b8e4" })
+    vim.api.nvim_set_hl(0, "NeoTreeGitIgnored", { fg = "#737994" })
+    vim.api.nvim_set_hl(0, "NeoTreeGitUnstaged", { fg = "#ef9f76" })
+    vim.api.nvim_set_hl(0, "NeoTreeGitStaged", { fg = "#a6d189" })
+    vim.api.nvim_set_hl(0, "NeoTreeGitConflict", { fg = "#e78284" })
+
+    -- Aplicar configuración
+    require("neo-tree").setup(opts)
+  end,
   -- Keymaps adicionales
   keys = {
     -- Mantener los keymaps por defecto de LazyVim
@@ -129,9 +178,13 @@ return {
     {
       "<leader>w>",
       function()
-        local view = require("neo-tree.sources.manager").get_state("filesystem")
-        if view and view.window and vim.api.nvim_win_is_valid(view.window.winid) then
-          vim.api.nvim_win_set_width(view.window.winid, vim.api.nvim_win_get_width(view.window.winid) + 5)
+        local manager = require("neo-tree.sources.manager")
+        local view = manager.get_state("filesystem")
+        if view and view.window and view.window.winid and vim.api.nvim_win_is_valid(view.window.winid) then
+          local current_width = vim.api.nvim_win_get_width(view.window.winid)
+          vim.api.nvim_win_set_width(view.window.winid, current_width + 5)
+        else
+          vim.notify("Neo-tree window not found", vim.log.levels.WARN)
         end
       end,
       desc = "Increase Neo-tree Width",
@@ -139,9 +192,13 @@ return {
     {
       "<leader>w<",
       function()
-        local view = require("neo-tree.sources.manager").get_state("filesystem")
-        if view and view.window and vim.api.nvim_win_is_valid(view.window.winid) then
-          vim.api.nvim_win_set_width(view.window.winid, math.max(vim.api.nvim_win_get_width(view.window.winid) - 5, 20))
+        local manager = require("neo-tree.sources.manager")
+        local view = manager.get_state("filesystem")
+        if view and view.window and view.window.winid and vim.api.nvim_win_is_valid(view.window.winid) then
+          local current_width = vim.api.nvim_win_get_width(view.window.winid)
+          vim.api.nvim_win_set_width(view.window.winid, math.max(current_width - 5, 20))
+        else
+          vim.notify("Neo-tree window not found", vim.log.levels.WARN)
         end
       end,
       desc = "Decrease Neo-tree Width",

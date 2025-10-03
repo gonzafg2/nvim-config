@@ -18,6 +18,88 @@ return {
 
     vim.o.laststatus = vim.g.lualine_laststatus
 
+    -- Función para contar archivos modificados en Git
+    local git_status_cache = {
+      count = "",
+      last_update = 0,
+      cache_duration = 2, -- Cache por 2 segundos
+    }
+
+    local function get_git_modified_count()
+      local current_time = vim.loop.now() / 1000
+
+      -- Usar caché si es reciente
+      if current_time - git_status_cache.last_update < git_status_cache.cache_duration then
+        return git_status_cache.count
+      end
+
+      -- Verificar si estamos en un repositorio git
+      local handle = io.popen("git status --porcelain 2>/dev/null")
+      if not handle then
+        git_status_cache.count = ""
+        git_status_cache.last_update = current_time
+        return ""
+      end
+
+      local result = handle:read("*a")
+      handle:close()
+
+      if result == "" or result == nil then
+        git_status_cache.count = ""
+        git_status_cache.last_update = current_time
+        return ""
+      end
+
+      local modified = 0
+      local staged = 0
+      local untracked = 0
+
+      for line in result:gmatch("[^\r\n]+") do
+        if line ~= "" then
+          local first = line:sub(1, 1)
+          local second = line:sub(2, 2)
+
+          -- Archivos no trackeados
+          if first == "?" then
+            untracked = untracked + 1
+          -- Archivos staged
+          elseif first ~= " " and first ~= "?" then
+            staged = staged + 1
+          end
+
+          -- Archivos modificados (no staged)
+          if second ~= " " and second ~= "?" then
+            modified = modified + 1
+          end
+        end
+      end
+
+      local total = staged + modified + untracked
+      local status_text = ""
+
+      if total > 0 then
+        status_text = "󰊢 " .. total .. " => "
+        -- Agregar desglose con formato: [S] - X | [M] - Y | [U] - Z
+        local parts = {}
+        if staged > 0 then
+          table.insert(parts, "[S] - " .. staged)
+        end
+        if modified > 0 then
+          table.insert(parts, "[M] - " .. modified)
+        end
+        if untracked > 0 then
+          table.insert(parts, "[U] - " .. untracked)
+        end
+        if #parts > 0 then
+          status_text = status_text .. table.concat(parts, " | ")
+        end
+      end
+
+      git_status_cache.count = status_text
+      git_status_cache.last_update = current_time
+      return status_text
+    end
+
     return {
       options = {
         theme = "auto",
@@ -29,6 +111,32 @@ return {
       sections = {
         lualine_a = { "mode" },
         lualine_b = {
+          -- Contador de archivos modificados en Git
+          {
+            get_git_modified_count,
+            color = function()
+              local count_text = get_git_modified_count()
+              if count_text == "" then
+                return { fg = "#6e6a86" }
+              end
+
+              -- Extraer el número total del texto
+              local total = count_text:match("󰊢 (%d+)")
+              if total then
+                total = tonumber(total)
+                if total <= 3 then
+                  return { fg = "#98be65", gui = "bold" } -- Verde para pocos cambios
+                elseif total <= 10 then
+                  return { fg = "#e0af68", gui = "bold" } -- Amarillo para cambios moderados
+                else
+                  return { fg = "#f7768e", gui = "bold" } -- Rojo para muchos cambios
+                end
+              end
+
+              return { fg = "#7aa2f7", gui = "bold" } -- Azul por defecto
+            end,
+            separator = "",
+          },
           -- Mostrar sesión actual
           {
             function()
@@ -198,7 +306,7 @@ return {
             function()
               local formatters = {}
               local filetype = vim.bo.filetype
-              
+
               -- Formatters comunes por tipo de archivo
               local formatter_map = {
                 javascript = { "prettier", "eslint" },
@@ -213,11 +321,11 @@ return {
                 go = { "gofmt", "goimports" },
                 rust = { "rustfmt" },
               }
-              
+
               if formatter_map[filetype] then
                 return "󰏖 " .. table.concat(formatter_map[filetype], ",")
               end
-              
+
               return ""
             end,
             color = { fg = "#ff9e64" },

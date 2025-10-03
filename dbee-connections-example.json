@@ -1,0 +1,27 @@
+[
+  {
+    "name": "PostgreSQL Local",
+    "type": "postgres", 
+    "url": "postgres://{{ env \"DB_USER\" }}:{{ env \"DB_PASS\" }}@localhost:5432/{{ env \"DB_NAME\" }}?sslmode=disable"
+  },
+  {
+    "name": "MySQL Development",
+    "type": "mysql",
+    "url": "{{ env \"MYSQL_USER\" }}:{{ env \"MYSQL_PASS\" }}@tcp(localhost:3306)/{{ env \"MYSQL_DB\" }}"
+  },
+  {
+    "name": "SQLite Project",
+    "type": "sqlite",
+    "url": "~/projects/myproject/database.db"
+  },
+  {
+    "name": "MongoDB Local",
+    "type": "mongo",
+    "url": "mongodb://{{ env \"MONGO_USER\" }}:{{ env \"MONGO_PASS\" }}@localhost:27017/{{ env \"MONGO_DB\" }}"
+  },
+  {
+    "name": "Redis Cache",
+    "type": "redis", 
+    "url": "redis://localhost:6379/0"
+  }
+]
