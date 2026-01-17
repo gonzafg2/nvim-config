@@ -1,6 +1,16 @@
 return {
   "folke/snacks.nvim",
   opts = function(_, opts)
+    -- Asegurar que los módulos críticos estén habilitados
+    opts.input = opts.input or {}
+    opts.input.enabled = true
+
+    opts.notifier = opts.notifier or {}
+    opts.notifier.enabled = true
+
+    opts.dashboard = opts.dashboard or {}
+    opts.dashboard.enabled = true
+
     -- Extender la configuración existente del dashboard
     local keys = {
       { icon = "󰈔 ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },

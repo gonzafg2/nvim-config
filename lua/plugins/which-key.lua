@@ -88,6 +88,9 @@ return {
     { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Abrir ClaudeCode" },
     -- { "<leader>ac", "<cmd>AIConfig<cr>", desc = "Configure AI" },
 
+    -- Database group (Dbee)
+    { "<leader>D", group = "Database", desc = "Database (Dbee)" },
+
     -- Otros mapeos y grupos
     -- { "<leader>f", group = "[F]ind", desc = "Find Group" },
     -- { "<leader>fs", "<cmd>Telescope find_files<cr>", desc = "Find Files" },

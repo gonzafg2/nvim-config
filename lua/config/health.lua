@@ -59,13 +59,21 @@ end
 -- Función para verificar el rendimiento
 function M.check_performance()
   local start_time = vim.fn.reltime()
+
+  -- Contar parsers de treesitter de forma segura (API moderna)
+  local parser_count = 0
+  local parser_files = vim.api.nvim_get_runtime_file("parser/*.so", true)
+  if parser_files then
+    parser_count = #parser_files
+  end
+
   local stats = {
     startup_time = vim.fn.reltimefloat(vim.fn.reltime(start_time)),
     loaded_plugins = #vim.tbl_keys(require("lazy").plugins()),
-    treesitter_parsers = #vim.tbl_keys(require("nvim-treesitter.parsers").get_parser_configs()),
-    lsp_clients = #vim.lsp.get_active_clients(),
+    treesitter_parsers = parser_count,
+    lsp_clients = #vim.lsp.get_clients(),
   }
-  
+
   return stats
 end
 
