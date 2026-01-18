@@ -1,9 +1,17 @@
 return {
   "folke/snacks.nvim",
+  config = function(_, opts)
+    require("snacks").setup(opts)
+    -- Forzar activación de módulos que requieren override
+    if opts.input and opts.input.enabled then
+      require("snacks").input.enable()
+    end
+  end,
   opts = function(_, opts)
     -- Asegurar que los módulos críticos estén habilitados
     opts.input = opts.input or {}
     opts.input.enabled = true
+    opts.input.override = true -- Tomar control de vim.ui.input
 
     opts.notifier = opts.notifier or {}
     opts.notifier.enabled = true
