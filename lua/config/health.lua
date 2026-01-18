@@ -40,7 +40,7 @@ function M.check()
     health.ok("Plugin count is reasonable")
   end
   
-  if perf.treesitter_parsers > 30 then
+  if perf.treesitter_parsers > 40 then
     health.warn("Many TreeSitter parsers installed", {
       "Consider removing unused language parsers"
     })
@@ -120,7 +120,7 @@ vim.api.nvim_create_user_command("CheckPerformance", function()
     print("⚠️  Too many plugins loaded. Review and remove unused ones.")
   end
   
-  if perf.treesitter_parsers > 30 then
+  if perf.treesitter_parsers > 40 then
     print("⚠️  Many TreeSitter parsers installed. Consider removing unused ones.")
   end
 end, { desc = "Check Neovim performance" })
