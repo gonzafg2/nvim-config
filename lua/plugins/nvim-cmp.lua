@@ -71,8 +71,15 @@ return {
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
-          elseif require("luasnip").expand_or_jumpable() then
-            require("luasnip").expand_or_jump()
+          elseif luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
+          elseif vim.fn.exists("*copilot#Accept") == 1 then
+            local key = vim.fn["copilot#Accept"]("")
+            if key ~= "" then
+              vim.api.nvim_feedkeys(key, "i", true)
+            else
+              fallback()
+            end
           else
             fallback()
           end
