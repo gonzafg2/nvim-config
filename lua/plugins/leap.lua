@@ -15,7 +15,7 @@ return {
 
     -- Opciones para mejor experiencia visual
     leap.opts.highlight_unlabeled_phase_one_targets = true  -- Resaltar coincidencias inmediatamente
-    leap.opts.safe_labels = {}  -- Forzar mostrar etiquetas siempre (no auto-jump)
+    -- Auto-jump cuando hay una sola coincidencia (comportamiento por defecto)
 
     -- Colores más visibles para las etiquetas
     vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" })  -- Atenuar fondo
