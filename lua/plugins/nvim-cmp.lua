@@ -127,7 +127,12 @@ return {
       -- Configuración de ventana mejorada
       opts.window = {
         completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        documentation = {
+          border = "rounded",
+          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+          max_width = 80,
+          max_height = 15,
+        },
       }
       
       -- Performance

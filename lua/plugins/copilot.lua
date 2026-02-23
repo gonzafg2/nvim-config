@@ -59,6 +59,8 @@ return {
       { "<leader>apd", "<cmd>CopilotChatDocs<cr>", mode = "v", desc = "Generar docs" },
       { "<leader>apt", "<cmd>CopilotChatTests<cr>", mode = "v", desc = "Generar tests" },
     },
-    opts = {},
+    opts = {
+      model = "claude-opus-4.6",
+    },
   },
 }
